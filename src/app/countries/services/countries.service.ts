@@ -12,12 +12,14 @@ export class CountriesService {
 
   constructor(private http: HttpClient) { }
 
-  searchCountryByAlphaCode(code:string): Observable<Country[]>{
+  searchCountryByAlphaCode(code:string): Observable<Country | null>{
     //configuracion de la solicitud
     const url:string = `${this.apiUrl}/alpha/${code}`
     return this.http.get<Country[]>(url)
       .pipe(
-        catchError(error => of([])) //si hay un error en la búsqueda (ej: una búsqueda que no sea válida), se vacía el array
+        //si encuentra países, devuelve el primero de ellos, si no, devuelve nulo
+        map(countries => countries.length > 0 ? countries[0] : null),
+        catchError(error => of(null)) //si hay un error en la búsqueda (ej: una búsqueda que no sea válida), se vacía el array
       );
   }
 

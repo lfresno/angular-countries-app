@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CountriesService } from '../../services/countries.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { Country } from '../../interfaces/country';
 
 @Component({
   selector: 'app-country-page',
@@ -9,6 +10,8 @@ import { switchMap } from 'rxjs';
   styles: ``
 })
 export class CountryPageComponent implements OnInit{
+
+  public country?: Country;
 
   constructor(
     private activatedRoute:ActivatedRoute,
@@ -29,7 +32,7 @@ export class CountryPageComponent implements OnInit{
         }
 
         console.log("TENEMOS UN PAÍS");
-        return; //para quitar el error
+        return this.country=country; //para quitar el error
       });
   }
 
